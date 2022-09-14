@@ -43,11 +43,11 @@ public class ContasRepoTests {
     cliente.setCpf("12345678900");
     cliente.setRg("123456789");
     cliente.setDataNascimento("2022-10-12");
-    conta.setIdCliente(cliente);
+    clienteRepo.save(cliente);
+    conta.setCliente(cliente);
     conta.setNumeroConta(12345678);
     conta.setSaldo(50.00);
     repo.save(conta);
-    clienteRepo.deleteAll();
 
     var existe = repo.existsByNumeroConta(12345678);
     assertEquals(true, existe);
