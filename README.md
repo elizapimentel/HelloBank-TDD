@@ -92,13 +92,16 @@ Construção de API de um banco fictício para gerenciar transações.
 ## 👩🏿‍🤝‍👨🏾Equipe 01
 <br>
 
-- [Bruno ]()
 <br>
+
 - [Eliza Pimentel](https://www.linkedin.com/in/eliza-pimentel/) 
 <br>
+
 - [Marcele Montalvao](https://www.linkedin.com/in/marcele-montalvao/)
 <br>
+
 - [Priscila Souza](https://www.linkedin.com/in/prisciladsouza/)
 <br>
+
 - [Samuel Leal](https://www.linkedin.com/in/samuelluizrl/)
 
