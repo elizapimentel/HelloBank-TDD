@@ -43,12 +43,12 @@ public class TransacaoController {
   }
 
   @PostMapping
-  public ResponseEntity<Transacao> criarTransacao(@RequestBody Transacao transacao) {
+  public ResponseEntity<Object> criarTransacao(@RequestBody Transacao transacao) {
     Conta contaOrigem = contaService.buscarContaPorId(transacao.getRemetente().getId());
     Conta contaDestino = contaService.buscarContaPorId(transacao.getDestinatario().getId());
 
     contaOrigem.setSaldo(contaOrigem.getSaldo() - transacao.getValor());
     contaDestino.setSaldo(contaDestino.getSaldo() + transacao.getValor());
-    return ResponseEntity.ok(transacaoService.fazerTransacao(transacao));
+    return ResponseEntity.ok().body("Transação realizada com sucesso!");
   }
 }

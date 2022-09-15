@@ -43,23 +43,23 @@ public class ContaController {
     if (clienteExiste) {
       return ResponseEntity.status(HttpStatus.SC_CONFLICT).build();
     }
-    return ResponseEntity.ok().body(conta);
+    return ResponseEntity.ok().body("Conta criada com sucesso");
   }
 
   @GetMapping("/{id}")
-  public Conta buscarPorCpf(@PathVariable Long id) {
+  public Conta buscarPorId(@PathVariable Long id) {
     return clienteService.buscarClientePorId(id).getConta();
   }
 
   @DeleteMapping("/{id}")
   public ResponseEntity<Object> deletarConta(@PathVariable Long id) {
-    Conta conta = contaService.buscarContaPorId(id);
+    Conta conta = clienteService.buscarClientePorId(id).getConta();
 
     if (conta.getId() == null) {
       return ResponseEntity.notFound().build();
     }
 
-    contaService.deletarConta(id);
+    contaService.deletarConta(conta.getId());
     return ResponseEntity.ok().body("Conta deletada com sucesso");
   }
 
