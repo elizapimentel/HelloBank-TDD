@@ -2,6 +2,7 @@ package br.com.grupo1.hellobank.controllers;
 
 import java.util.List;
 
+import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,7 +20,7 @@ import br.com.grupo1.hellobank.services.ContaService;
 @RestController
 @RequestMapping("/conta")
 public class ContaController {
-  
+
   @Autowired
   ContaService contaService;
 
@@ -32,8 +33,17 @@ public class ContaController {
   }
 
   @PostMapping
-  public Conta criarConta(@RequestBody Conta conta) {
-    return contaService.cadastrarConta(conta);
+  public ResponseEntity<Object> criarConta(@RequestBody Conta conta) {
+    var cliente = clienteService.buscarClientePorId(conta.getCliente().getId());
+    if (cliente != null) {
+      return ResponseEntity.status(HttpStatus.SC_CREATED).body(contaService.cadastrarConta(conta));
+    }
+
+    boolean clienteExiste = contaService.contaExistePorNumeroConta(conta.getNumeroConta());
+    if (clienteExiste) {
+      return ResponseEntity.status(HttpStatus.SC_CONFLICT).build();
+    }
+    return ResponseEntity.ok().body(conta);
   }
 
   @GetMapping("/{id}")

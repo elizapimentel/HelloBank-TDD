@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.grupo1.hellobank.models.Conta;
 import br.com.grupo1.hellobank.models.Transacao;
+import br.com.grupo1.hellobank.services.ContaService;
 import br.com.grupo1.hellobank.services.TransacaoService;
 
 @RestController
@@ -19,16 +21,19 @@ import br.com.grupo1.hellobank.services.TransacaoService;
 public class TransacaoController {
 
   @Autowired
-  TransacaoService service;
-  
+  TransacaoService transacaoService;
+
+  @Autowired
+  ContaService contaService;
+
   @GetMapping
   public List<Transacao> listarTransacoes() {
-    return service.listarTransacoes();
+    return transacaoService.listarTransacoes();
   }
 
   @GetMapping("/{id}")
   public ResponseEntity<Transacao> listarTransacaoPorId(@PathVariable Long id) {
-    Transacao transacao = service.buscarTransacaoPorId(id);
+    Transacao transacao = transacaoService.buscarTransacaoPorId(id);
 
     if (transacao.getId() == null) {
       return ResponseEntity.notFound().build();
@@ -39,6 +44,11 @@ public class TransacaoController {
 
   @PostMapping
   public ResponseEntity<Transacao> criarTransacao(@RequestBody Transacao transacao) {
-    return ResponseEntity.ok(service.fazerTransacao(transacao));
+    Conta contaOrigem = contaService.buscarContaPorId(transacao.getRemetente().getId());
+    Conta contaDestino = contaService.buscarContaPorId(transacao.getDestinatario().getId());
+
+    contaOrigem.setSaldo(contaOrigem.getSaldo() - transacao.getValor());
+    contaDestino.setSaldo(contaDestino.getSaldo() + transacao.getValor());
+    return ResponseEntity.ok(transacaoService.fazerTransacao(transacao));
   }
 }
