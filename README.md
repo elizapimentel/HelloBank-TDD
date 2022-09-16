@@ -94,6 +94,8 @@ Construção de API de um banco fictício para gerenciar transações.
 
 <br>
 
+- [Bruno]()
+
 - [Eliza Pimentel](https://www.linkedin.com/in/eliza-pimentel/) 
 <br>
 
