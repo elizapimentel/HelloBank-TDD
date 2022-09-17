@@ -14,18 +14,18 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "contas")
+@Table(name = "conta")
 public class Conta {
 
   @OneToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "cliente_id")
+  @JoinColumn(name = "id_cliente")
   private Cliente cliente;
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Column(nullable = false, length = 8, name = "numero_conta")
+  @Column(nullable = false, length = 8, name = "num_conta")
   private Integer numeroConta;
 
   @Column(nullable = false)

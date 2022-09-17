@@ -47,8 +47,13 @@ public class TransacaoController {
     Conta contaOrigem = contaService.buscarContaPorId(transacao.getRemetente().getId());
     Conta contaDestino = contaService.buscarContaPorId(transacao.getDestinatario().getId());
 
-    contaOrigem.setSaldo(contaOrigem.getSaldo() - transacao.getValor());
-    contaDestino.setSaldo(contaDestino.getSaldo() + transacao.getValor());
-    return ResponseEntity.ok().body("Transação realizada com sucesso!");
+    if (contaOrigem.getSaldo() > transacao.getValor()) {
+      contaOrigem.setSaldo(contaOrigem.getSaldo() - transacao.getValor());
+      contaDestino.setSaldo(contaDestino.getSaldo() + transacao.getValor());
+      transacaoService.fazerTransacao(transacao);
+      return ResponseEntity.ok().body("Transação realizada com sucesso!");
+    }
+    return ResponseEntity.badRequest().body("O remetente não possui saldo suficiente para realizar essa transação.");
+
   }
 }

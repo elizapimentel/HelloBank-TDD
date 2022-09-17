@@ -14,23 +14,23 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "clientes")
+@Table(name = "cliente")
 public class Cliente {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Column(nullable = false)
+  @Column(nullable = false, length = 50)
   private String nome;
 
-  @Column(nullable = false)
+  @Column(nullable = false, length = 50, unique = true)
   private String email;
 
-  @Column(nullable = false, length = 11)
+  @Column(nullable = false, length = 11, unique = true)
   private String cpf;
 
-  @Column(nullable = false, name = "registro_geral")
+  @Column(nullable = false, name = "registro_geral", length = 15, unique = true)
   private String rg;
 
   @Column(nullable = false, name = "data_nascimento")
