@@ -18,7 +18,7 @@ import lombok.Data;
 public class Conta {
 
   @OneToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "id_cliente")
+  @JoinColumn(name = "id_cliente", nullable = false)
   private Cliente cliente;
 
   @Id

@@ -34,16 +34,17 @@ public class ContaController {
 
   @PostMapping
   public ResponseEntity<Object> criarConta(@RequestBody Conta conta) {
-    var cliente = clienteService.buscarClientePorId(conta.getCliente().getId());
-    if (cliente != null) {
-      return ResponseEntity.status(HttpStatus.SC_CREATED).body(contaService.cadastrarConta(conta));
-    }
+    var idCliente = conta.getCliente().getId();
+    var cliente = clienteService.buscarClientePorId(idCliente);
+    boolean contaExiste = contaService.contaExistePorNumeroConta(conta.getNumeroConta());
 
-    boolean clienteExiste = contaService.contaExistePorNumeroConta(conta.getNumeroConta());
-    if (clienteExiste) {
-      return ResponseEntity.status(HttpStatus.SC_CONFLICT).build();
+    // TODO Validar se o cliente já possui uma conta
+    boolean clienteJaPossuiConta = conta.getCliente().getConta() != null;
+    
+    if (contaExiste || clienteJaPossuiConta || cliente == null) {
+      return ResponseEntity.status(HttpStatus.SC_CONFLICT).body("Requisição inválida. Uma conta com esse número já existe ou o cliente informado já possui uma conta, ou o cliente informado não existe.");
     }
-    return ResponseEntity.ok().body("Conta criada com sucesso");
+    return ResponseEntity.status(HttpStatus.SC_CREATED).body(contaService.cadastrarConta(conta));
   }
 
   @GetMapping("/{id}")

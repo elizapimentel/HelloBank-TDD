@@ -28,6 +28,14 @@ public class ClienteService {
     return repo.save(cliente);
   }
 
+  public boolean clienteExistePorId(Long id) {
+    return repo.existsById(id);
+  }
+
+  public boolean clienteJaPossuiConta(Long id) {
+    return repo.findById(id).isPresent();
+  }
+
   public boolean clienteExistePorCpf(String cpf) {
     return repo.existsByCpf(cpf);
   }
