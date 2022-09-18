@@ -25,9 +25,9 @@ CREATE TABLE IF NOT EXISTS `hellobank`.`cliente` (
   `cidade` VARCHAR(255) NULL,
   `cep` VARCHAR(10) NULL,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE,
-  UNIQUE INDEX `cpf_UNIQUE` (`cpf` ASC) VISIBLE,
-  UNIQUE INDEX `registro_geral_UNIQUE` (`registro_geral` ASC) VISIBLE)
+  UNIQUE INDEX `email_UNIQUE` (`email` ASC),
+  UNIQUE INDEX `cpf_UNIQUE` (`cpf` ASC),
+  UNIQUE INDEX `registro_geral_UNIQUE` (`registro_geral` ASC))
 ENGINE = InnoDB;
 
 -- -----------------------------------------------------
@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS `hellobank`.`conta` (
   `saldo` DOUBLE NOT NULL,
   `id_cliente` BIGINT NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_conta_cliente_idx` (`id_cliente` ASC) VISIBLE,
+  INDEX `fk_conta_cliente_idx` (`id_cliente` ASC),
   CONSTRAINT `fk_conta_cliente`
     FOREIGN KEY (`id_cliente`)
     REFERENCES `hellobank`.`cliente` (`id`)
@@ -59,8 +59,8 @@ CREATE TABLE IF NOT EXISTS `hellobank`.`transacao` (
   `id_destinatario` BIGINT NULL,
   `id_remetente` BIGINT NULL,
   PRIMARY KEY (`id`),
-  INDEX `id_destinatario_idx` (`id_destinatario` ASC) VISIBLE,
-  INDEX `id_remetente_idx` (`id_remetente` ASC) VISIBLE,
+  INDEX `id_destinatario_idx` (`id_destinatario` ASC),
+  INDEX `id_remetente_idx` (`id_remetente` ASC),
   CONSTRAINT `id_destinatario`
     FOREIGN KEY (`id_destinatario`)
     REFERENCES `hellobank`.`cliente` (`id`)

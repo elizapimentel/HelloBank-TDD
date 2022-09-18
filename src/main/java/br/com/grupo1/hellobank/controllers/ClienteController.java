@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +20,7 @@ import br.com.grupo1.hellobank.services.ClienteService;
 @RestController
 @RequestMapping("/clientes")
 public class ClienteController {
-  
+
   @Autowired
   private ClienteService service;
 
@@ -31,11 +30,11 @@ public class ClienteController {
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<Cliente> buscarClientePorId(@PathVariable(value = "id") Long id) {
+  public ResponseEntity<Object> buscarClientePorId(@PathVariable(value = "id") Long id) {
     Cliente cliente = service.buscarClientePorId(id);
 
     if (cliente.getId() == null) {
-      return ResponseEntity.notFound().build();
+      return ResponseEntity.badRequest().body("Cliente não encontrado!");
     }
     return ResponseEntity.ok().body(cliente);
   }
@@ -43,7 +42,7 @@ public class ClienteController {
   @PostMapping
   public ResponseEntity<Object> cadastrarCliente(@RequestBody Cliente cliente) {
     if (service.clienteExistePorCpf(cliente.getCpf())) {
-      return ResponseEntity.status(HttpStatus.CONFLICT).body("Usuário já cadastrado");
+      return ResponseEntity.badRequest().body("Cliente já cadastrado!");
     }
     return ResponseEntity.ok().body(service.cadastrarCliente(cliente));
   }
@@ -53,20 +52,19 @@ public class ClienteController {
     Cliente clienteAtual = service.buscarClientePorId(id);
 
     if (clienteAtual.getId() == null) {
-      return ResponseEntity.notFound().build();
+      return ResponseEntity.badRequest().body("Cliente não encontrado!");
     }
 
     BeanUtils.copyProperties(cliente, clienteAtual, "id");
     return ResponseEntity.ok().body(service.atualizarCliente(clienteAtual));
   }
 
-
   @DeleteMapping("/{id}")
   public ResponseEntity<Object> deletarCliente(@PathVariable Long id) {
     Cliente cliente = service.buscarClientePorId(id);
 
     if (cliente.getId() == null) {
-      return ResponseEntity.notFound().build();
+      return ResponseEntity.badRequest().body("Cliente não encontrado!");
     }
     service.deletarCliente(cliente.getId());
     return ResponseEntity.ok().body("Cliente deletado com sucesso");

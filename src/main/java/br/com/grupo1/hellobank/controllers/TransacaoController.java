@@ -32,7 +32,7 @@ public class TransacaoController {
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<Transacao> listarTransacaoPorId(@PathVariable Long id) {
+  public ResponseEntity<Transacao> buscarTransacaoPorId(@PathVariable Long id) {
     Transacao transacao = transacaoService.buscarTransacaoPorId(id);
 
     if (transacao.getId() == null) {

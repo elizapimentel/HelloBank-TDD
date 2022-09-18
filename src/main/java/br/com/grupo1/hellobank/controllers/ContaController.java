@@ -1,8 +1,5 @@
 package br.com.grupo1.hellobank.controllers;
 
-import java.util.List;
-
-import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -27,29 +24,23 @@ public class ContaController {
   @Autowired
   ClienteService clienteService;
 
-  @GetMapping
-  public List<Conta> buscarContas() {
-    return contaService.listarContas();
-  }
-
   @PostMapping
   public ResponseEntity<Object> criarConta(@RequestBody Conta conta) {
     var idCliente = conta.getCliente().getId();
-    var cliente = clienteService.buscarClientePorId(idCliente);
     boolean contaExiste = contaService.contaExistePorNumeroConta(conta.getNumeroConta());
 
     // TODO Validar se o cliente já possui uma conta
     boolean clienteJaPossuiConta = conta.getCliente().getConta() != null;
-    
-    if (contaExiste || clienteJaPossuiConta || cliente == null) {
-      return ResponseEntity.status(HttpStatus.SC_CONFLICT).body("Requisição inválida. Uma conta com esse número já existe ou o cliente informado já possui uma conta, ou o cliente informado não existe.");
+
+    if (idCliente == null || clienteJaPossuiConta || contaExiste) {
+      return ResponseEntity.badRequest().body("Conta já cadastrada ou cliente não existe!");
     }
-    return ResponseEntity.status(HttpStatus.SC_CREATED).body(contaService.cadastrarConta(conta));
+    return ResponseEntity.ok().body(contaService.cadastrarConta(conta));
   }
 
   @GetMapping("/{id}")
-  public Conta buscarPorId(@PathVariable Long id) {
-    return clienteService.buscarClientePorId(id).getConta();
+  public Conta buscarContaPorId(@PathVariable Long id) {
+    return contaService.buscarContaPorId(id);
   }
 
   @DeleteMapping("/{id}")
@@ -57,7 +48,7 @@ public class ContaController {
     Conta conta = clienteService.buscarClientePorId(id).getConta();
 
     if (conta.getId() == null) {
-      return ResponseEntity.notFound().build();
+      return ResponseEntity.badRequest().body("Conta não encontrada!");
     }
 
     contaService.deletarConta(conta.getId());
