@@ -1,7 +1,5 @@
 package br.com.grupo1.hellobank.controllers;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,37 +17,41 @@ import br.com.grupo1.hellobank.services.ContaService;
 @RestController
 @RequestMapping("/conta")
 public class ContaController {
-  
+
   @Autowired
   ContaService contaService;
 
   @Autowired
   ClienteService clienteService;
 
-  @GetMapping
-  public List<Conta> buscarContas() {
-    return contaService.listarContas();
-  }
-
   @PostMapping
-  public Conta criarConta(@RequestBody Conta conta) {
-    return contaService.cadastrarConta(conta);
+  public ResponseEntity<Object> criarConta(@RequestBody Conta conta) {
+    var idCliente = conta.getCliente().getId();
+    boolean contaExiste = contaService.contaExistePorNumeroConta(conta.getNumeroConta());
+
+    // TODO Validar se o cliente já possui uma conta
+    boolean clienteJaPossuiConta = conta.getCliente().getConta() != null;
+
+    if (idCliente == null || clienteJaPossuiConta || contaExiste) {
+      return ResponseEntity.badRequest().body("Conta já cadastrada ou cliente não existe!");
+    }
+    return ResponseEntity.ok().body(contaService.cadastrarConta(conta));
   }
 
   @GetMapping("/{id}")
-  public Conta buscarPorCpf(@PathVariable Long id) {
-    return clienteService.buscarClientePorId(id).getConta();
+  public Conta buscarContaPorId(@PathVariable Long id) {
+    return contaService.buscarContaPorId(id);
   }
 
   @DeleteMapping("/{id}")
   public ResponseEntity<Object> deletarConta(@PathVariable Long id) {
-    Conta conta = contaService.buscarContaPorId(id);
+    Conta conta = clienteService.buscarClientePorId(id).getConta();
 
     if (conta.getId() == null) {
-      return ResponseEntity.notFound().build();
+      return ResponseEntity.badRequest().body("Conta não encontrada!");
     }
 
-    contaService.deletarConta(id);
+    contaService.deletarConta(conta.getId());
     return ResponseEntity.ok().body("Conta deletada com sucesso");
   }
 

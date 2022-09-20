@@ -37,6 +37,10 @@ public class ClientesRepoTests {
     cliente.setCpf("12345678900");
     cliente.setRg("123456789");
     cliente.setDataNascimento("2022-10-12");
+    cliente.setTelefone("11999999999");
+    cliente.setEstado("RN");
+    cliente.setCidade("Natal");
+    cliente.setCep("59000000");
     repo.save(cliente);
 
     var existe = repo.existsByCpf("12345678900");

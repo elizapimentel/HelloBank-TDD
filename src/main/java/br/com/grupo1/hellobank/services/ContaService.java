@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.com.grupo1.hellobank.models.Cliente;
 import br.com.grupo1.hellobank.models.Conta;
 import br.com.grupo1.hellobank.repositories.ContaRepo;
 
@@ -30,6 +31,10 @@ public class ContaService {
 
   public boolean contaExistePorNumeroConta(int numeroConta) {
     return repo.existsByNumeroConta(numeroConta);
+  }
+
+  public boolean clienteJaPossuiConta(Cliente cliente) {
+    return repo.findByCliente(cliente).size() > 0;
   }
 
   public Conta atualizarConta(Conta conta) {
