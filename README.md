@@ -23,22 +23,34 @@ Construção de API de um banco fictício para gerenciar transações.
     |   |   |   |   └─📄Conta.java 
     |   |   |   |   └─📄Transacao.java   
     |   |   |   └─ 📁 repositories
-    |   |   |   |   └─📄ClienteRepository.java  
-    |   |   |   |   └─📄ContaRepository.java 
-    |   |   |   |   └─📄TransacaoRepository.java 
+    |   |   |   |   └─📄ClienteRepo.java  
+    |   |   |   |   └─📄ContaRepo.java 
+    |   |   |   |   └─📄TransacaoRepo.java 
     |   |   |   └─ 📁 Services
     |   |   |   |   └─📄ClienteService.java  
     |   |   |   |   └─📄ContaService.java 
     |   |   |   |   └─📄TransacaoService.java 
-    │   |   |   └─📄DesafioApplication.java    
+    │   |   |   └─📄HelloBankApplication.java    
     |   |   └─ 📁 resources   
     |   |   |   └─📄Application.properties
-    |   └─ 📁 test\java\com\helloBank\desafio
-    |   |   └─📄DesafioApplicationTests.java
-    ├──📁 target
-    ├─📄.gitignore      
-    ├─📄 pom.xml
+    |   └─ 📁 test\java\com\grupo01\helloBank
+    |   |   └─ 📁 controllers
+    |   |   |   └─📄ClientesControllerTests.java
+    |   |   └─ 📁 libs
+    |   |   |   └─📄httpRequests.java
+    |   |   └─ 📁 models
+    |   |   |   └─📄 ClientesTests.java
+    |   |   |   └─📄 ContasTests.java
+    |   |   |   └─📄 TransacoesTests.java
+    |   |   └─ 📁 repositories
+    |   |   |   └─📄 ClientesRepoTests.java
+    |   |   |   └─📄 ContasRepoTests.java
+    |   |   |   └─📄 TransacoesRepoTests.java
+    |   |   └─📄 HellobankApplicationTests.java
+    ├─📄.gitignore 
+    ├─📄 HelloBankDiagram.jpg      
     ├─📄 README.md  
+    ├─📄 pom.xml
     ├─📄 run.sh
     └─📄 start.sh
 ```
@@ -89,9 +101,10 @@ Construção de API de um banco fictício para gerenciar transações.
 </div>
 <br>
 
-## 👩🏿‍🤝‍👨🏾Equipe 01
+## 👩🏿‍🤝‍👨🏾ATM group - Agility, Transparency and Management
 <br>
 
+- [Bruno Moura](https://www.linkedin.com/in/brunomoura22/)
 <br>
 
 - [Eliza Pimentel](https://www.linkedin.com/in/eliza-pimentel/) 
